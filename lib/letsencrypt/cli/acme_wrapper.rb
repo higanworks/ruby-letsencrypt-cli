@@ -105,6 +105,22 @@ class AcmeWrapper
     end
   end
 
+  def revoke_certificate(path)
+    unless File.exists?(path)
+      log "Certificate #{path} does not exists", :warn
+      return false
+    end
+    cert = OpenSSL::X509::Certificate.new(File.read(path))
+    begin
+      client.revoke_certificate(cert)
+      log "Certificate '#{path}' revoked", :info
+      true
+    rescue => e
+      log e.inspect, :error
+      false
+    end
+  end
+
   private
 
   def certificate_exists_and_valid?

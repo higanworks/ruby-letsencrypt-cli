@@ -92,6 +92,11 @@ module Letsencrypt
         cert(*domains)
       end
 
+      desc "revoke PATH_TO_CERTIFICATE", "revoke, if a given certificate exists"
+      def revoke_cert(path)
+        wrapper.revoke_certificate(path)
+      end
+
       map %w[--version -v] => :__print_version
       desc "--version, -v", "print the version"
       def __print_version
